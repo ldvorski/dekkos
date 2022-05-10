@@ -1,21 +1,31 @@
 package hr.mc2.dekkos.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 @Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "is_admin")
     private boolean isAdmin;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "party_id", referencedColumnName = "id_party")
+    private Party party;
 
     public User(String name, boolean isAdmin) {
         this.name = name;
         this.isAdmin = isAdmin;
+        if (isAdmin == true){
+            this.party = new Party(this);
+        }
+
     }
 
     protected User() {}
