@@ -1,51 +1,53 @@
 package hr.mc2.dekkos.model;
 
-import hr.mc2.dekkos.service.PartyService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-
 import javax.persistence.*;
-import java.util.Random;
+import java.util.Set;
 
 
 @Entity
 @Table(name = "party")
 public class Party {
     @Id
-    @Column(name = "party_code")
-    private String partyCode;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_party")
+    private Integer idParty;
     @Column(name = "is_active")
     private boolean isActive;
 
-    @OneToOne(mappedBy = "party")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "partyAdmin")
     private User partyAdmin;
 
-    @Autowired
+    @OneToMany(mappedBy = "userParty",fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private Set<User> users;
+
     public Party(User user){
         this.isActive = true;
         this.partyAdmin = user;
-        this.partyCode = generate(PartyService partyService);
     }
-    protected Party(){}
 
-    public String getPartyCode() {
-        return partyCode;
+    public Party() {
+
+    }
+
+    public Integer getPartyCode() {
+        return idParty;
     }
     public boolean partyIsActive(){
         return isActive;
     }
 
-
-    public String generate(PartyService partyService) {
-
-        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        Random rnd = new Random();
-        StringBuilder sb = new StringBuilder(4);
-        for (int i = 0; i < 4; i++)
-            sb.append(chars.charAt(rnd.nextInt(chars.length())));
-        if (partyService.existsPartyByPartyCode(sb.toString()))
-            return generate(partyService);
-        return sb.toString();
+    public User getPartyAdmin() {
+        return partyAdmin;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUser(User user) {
+        this.users.add(user);
+    }
 }

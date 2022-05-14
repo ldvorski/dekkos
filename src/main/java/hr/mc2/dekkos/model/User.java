@@ -1,6 +1,8 @@
 package hr.mc2.dekkos.model;
 
 
+import hr.mc2.dekkos.service.PartyServiceImpl;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,23 +11,28 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "is_admin")
     private boolean isAdmin;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "party_id", referencedColumnName = "id_party")
-    private Party party;
+    @PrimaryKeyJoinColumn
+    private Party adminToParty;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "party_id", nullable = false)
+    private Party userParty;
+    /*
+        partyAdmin kreira party i postavlja se kao admin partija,
+        partyUser trazi party preko partyIda te se stavlja na popis usera
+
+     */
 
     public User(String name, boolean isAdmin) {
         this.name = name;
         this.isAdmin = isAdmin;
-        if (isAdmin == true){
-            this.party = new Party(this);
-        }
-
     }
 
     protected User() {}
@@ -45,7 +52,7 @@ public class User {
                 id,name,isAdmin);
     }
 
-    public Long getId(){
+    public Integer getId(){
         return this.id;
     }
 

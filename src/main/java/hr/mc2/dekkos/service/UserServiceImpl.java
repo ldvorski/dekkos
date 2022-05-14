@@ -1,6 +1,8 @@
 package hr.mc2.dekkos.service;
 
 
+import hr.mc2.dekkos.dao.PartyRepository;
+import hr.mc2.dekkos.model.Party;
 import hr.mc2.dekkos.model.User;
 import hr.mc2.dekkos.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PartyRepository partyRepository;
 
     @Override
     public User add(User user) {
