@@ -1,8 +1,6 @@
 package hr.mc2.dekkos.model;
 
 
-import hr.mc2.dekkos.service.PartyServiceImpl;
-
 import javax.persistence.*;
 
 @Entity
@@ -62,6 +60,14 @@ public class User {
 
     public boolean isAdmin(){
         return isAdmin;
+    }
+
+    public Party getUserParty() {
+        return userParty;
+    }
+
+    public void setUserParty(Party userParty) {
+        this.userParty = userParty;
     }
 }
 

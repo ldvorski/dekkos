@@ -32,22 +32,19 @@ public class Party {
 
     }
 
-    public Integer getPartyCode() {
-        return idParty;
+    public Integer getIdParty() {
+        return this.idParty;
     }
     public boolean partyIsActive(){
-        return isActive;
+        return this.isActive;
     }
 
     public User getPartyAdmin() {
-        return partyAdmin;
+        return this.partyAdmin;
     }
 
     public Set<User> getUsers() {
-        return users;
+        return this.users;
     }
 
-    public void setUser(User user) {
-        this.users.add(user);
-    }
 }

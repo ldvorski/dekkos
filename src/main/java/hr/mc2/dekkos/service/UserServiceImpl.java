@@ -1,7 +1,6 @@
 package hr.mc2.dekkos.service;
 
 
-import hr.mc2.dekkos.dao.PartyRepository;
 import hr.mc2.dekkos.model.Party;
 import hr.mc2.dekkos.model.User;
 import hr.mc2.dekkos.dao.UserRepository;
@@ -14,16 +13,23 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private PartyRepository partyRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User add(User user) {
         userRepository.save(user);
         return user;
+    }
+
+    @Override
+    public void addToParty(User user, Party party){
+        user.setUserParty(party);
+        userRepository.save(user);
     }
 
     @Override
