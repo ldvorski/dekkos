@@ -13,5 +13,7 @@ public interface UserService {
     void addToParty(User user, Party party);
 
     List<User> getUsers();
+
+    void setUserParty(User user);
 }
 

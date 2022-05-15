@@ -2,10 +2,11 @@ package hr.mc2.dekkos.model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -15,18 +16,12 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "partyAdmin")
     private Party adminToParty;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "party_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_party")
     private Party userParty;
-    /*
-        partyAdmin kreira party i postavlja se kao admin partija,
-        partyUser trazi party preko partyIda te se stavlja na popis usera
-
-     */
 
     public User(String name, boolean isAdmin) {
         this.name = name;
@@ -35,14 +30,6 @@ public class User {
 
     protected User() {}
 
-    public String getThisUser() {
-        String admin = "isn't";
-        if (this.isAdmin) {
-            admin = "is";
-        }
-
-        return "The users name is " + this.name + " and he " + admin + " the party admin";
-    }
     @Override
     public String toString() {
         return String.format(
@@ -68,6 +55,10 @@ public class User {
 
     public void setUserParty(Party userParty) {
         this.userParty = userParty;
+    }
+
+    public Party getAdminToParty() {
+        return adminToParty;
     }
 }
 

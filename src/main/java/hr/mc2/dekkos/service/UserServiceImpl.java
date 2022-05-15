@@ -21,6 +21,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void setUserParty(User user){
+        user.setUserParty(user.getAdminToParty());
+        userRepository.save(user);
+    }
+
+    @Override
     public User add(User user) {
         userRepository.save(user);
         return user;

@@ -14,12 +14,11 @@ public class Party {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "partyAdmin")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "party_admin", referencedColumnName = "id")
     private User partyAdmin;
 
-    @OneToMany(mappedBy = "userParty",fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "userParty",fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<User> users;
 
