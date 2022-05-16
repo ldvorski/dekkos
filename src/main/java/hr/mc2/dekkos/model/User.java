@@ -1,6 +1,5 @@
 package hr.mc2.dekkos.model;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 
