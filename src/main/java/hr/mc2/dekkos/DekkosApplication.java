@@ -9,5 +9,4 @@ public class DekkosApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DekkosApplication.class, args);
 	}
-
 }

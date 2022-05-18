@@ -10,10 +10,10 @@ import java.util.List;
 public interface UserService {
     User add(User user);
 
-    void addToParty(User user, Party party);
+    User addToParty(User user, Party party);
 
     List<User> getUsers();
 
-    void setUserParty(User user);
+    User getUser(Integer userId);
 }
 

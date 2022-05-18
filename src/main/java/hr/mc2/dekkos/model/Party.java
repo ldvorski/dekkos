@@ -1,5 +1,7 @@
 package hr.mc2.dekkos.model;
 
+import hr.mc2.dekkos.service.ObfuscatorImpl;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class Party {
     @JoinColumn(name = "party_admin", referencedColumnName = "id")
     private User partyAdmin;
 
-    @OneToMany(mappedBy = "userParty",fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "userParty",fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     private Set<User> users;
 

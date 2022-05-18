@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,9 +26,24 @@ public class PartyServiceImpl implements PartyService {
     }
 
     @Override
+    public String getObfuscatedPartyId(Party party){
+        return ObfuscatorImpl.obfuscate(party.getIdParty());
+    }
+
+    @Override
+    public List<String> getAllObfuscatedPartyIds(){
+        List<String> ids = new ArrayList<>();
+        for(Party party : partyRepository.findAll()){
+            ids.add(ObfuscatorImpl.obfuscate(party.getIdParty()));
+        }
+        return ids;
+    }
+
+    @Override
     public Party getParty(Integer partyId) throws NotFoundException {
+
         Optional<Party> partyOptional = partyRepository.findPartyByIdParty(partyId);
-        if(!partyOptional.isPresent()){
+        if(partyOptional.isEmpty()){
             throw new NotFoundException(
               String.format("ERR_PARTY_NOT_FOUND" + partyId)
             );
@@ -35,15 +52,32 @@ public class PartyServiceImpl implements PartyService {
     }
 
     @Override
-    public void makeAdminParty(User user){
+    public User makeAdminParty(User user){
         Party adminParty = new Party(user);
         partyRepository.save(adminParty);
-        userServiceImpl.addToParty(user, adminParty);
+        return userServiceImpl.addToParty(user, adminParty);
+
     }
 
     @Override
-    public void addUserToParty(User user, Integer idParty){
-        Party party = getParty(idParty);
-        userServiceImpl.addToParty(user, party);
+    public User addUserToParty(User user, Integer id){
+        Party party = getParty(id);
+        return userServiceImpl.addToParty(user, party);
+    }
+
+    @Override
+    public Iterable<Party> findAll(){
+        return partyRepository.findAll();
+    }
+
+    @Override
+    public Party getPartyByAdmin(User admin){
+        Optional<Party> partyOptional = partyRepository.findByPartyAdmin(admin);
+        if(partyOptional.isEmpty()){
+            throw new NotFoundException(
+                    "ERR_PARTY_NOT_FOUND"
+            );
+        }
+        return partyOptional.get();
     }
 }

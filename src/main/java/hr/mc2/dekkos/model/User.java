@@ -18,7 +18,7 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "partyAdmin")
     private Party adminToParty;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_party")
     private Party userParty;
 
@@ -49,7 +49,7 @@ public class User implements Serializable {
     }
 
     public Party getUserParty() {
-        return userParty;
+        return this.userParty;
     }
 
     public void setUserParty(Party userParty) {
@@ -57,7 +57,8 @@ public class User implements Serializable {
     }
 
     public Party getAdminToParty() {
-        return adminToParty;
+        return this.adminToParty;
     }
+
 }
 
