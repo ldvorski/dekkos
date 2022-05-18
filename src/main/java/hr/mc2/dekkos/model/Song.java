@@ -18,6 +18,15 @@ public class Song {
     @Column(name = "title")
     String title;
 
+    public Song(String videoId, String url, String title) {
+        this.url = videoId;
+        this.thumbnail = url;
+        this.title = title;
+    }
+
+    protected Song() {
+    }
+
     public String getThumbnail() {
         return thumbnail;
     }

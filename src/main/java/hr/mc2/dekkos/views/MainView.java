@@ -2,23 +2,25 @@ package hr.mc2.dekkos.views;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinService;
-import hr.mc2.dekkos.external.YouTubeAPI;
+import hr.mc2.dekkos.components.PotentialSongComponent;
+import hr.mc2.dekkos.external.YouTubeClient;
 import hr.mc2.dekkos.model.Party;
+import hr.mc2.dekkos.model.Song;
 import hr.mc2.dekkos.model.User;
+import hr.mc2.dekkos.service.Obfuscator;
 import hr.mc2.dekkos.service.PartyService;
 import hr.mc2.dekkos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
+import java.util.List;
 
 @Route
 public class MainView extends VerticalLayout {
@@ -32,17 +34,15 @@ public class MainView extends VerticalLayout {
 
     Button admin = new Button("Create Party", e -> setSessionUser(adminButton(userName.getValue())));
     Button member = new Button("Join Party", e -> setSessionUser(userButton(userName.getValue(), partyId.getValue())));
-    Button searchBtn = new Button("Search YouTube", e ->{
-        try {
-            Notification.show(YouTubeAPI.search(searchBox.getValue()).toString());
-        } catch (GeneralSecurityException | IOException ex) {
-            throw new RuntimeException(ex);
+    Button searchBtn = new Button("Search YouTube", e -> this.sessionInfo.add(PotentialSongComponent.create(queryYouTube(searchBox.getValue()))));
+    Button iframe = new Button("iframe", e -> {
+        if(VaadinService.getCurrentRequest().getWrappedSession().getAttribute("curSong")!= null){
+            this.sessionInfo.add(new IFrame(VaadinService.getCurrentRequest().getWrappedSession().getAttribute("curSong").toString()));
         }
-
     });
     VerticalLayout sessionInfo = new VerticalLayout();
     Button button = new Button("update session info", e -> getSessionUser());
-    Button showid = new Button("show obfuscated ids", e -> this.sessionInfo.add(new Label(String.valueOf(this.uiParty.getIdParty()))));
+    Button showid = new Button("show obfuscated ids", e -> this.sessionInfo.add(new Label((Obfuscator.obfuscate(this.uiParty.getIdParty())))));
 
     HorizontalLayout buttons = new HorizontalLayout(admin, member,searchBtn, button,showid);
     @Autowired

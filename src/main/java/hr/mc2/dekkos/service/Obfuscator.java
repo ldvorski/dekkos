@@ -3,7 +3,7 @@ package hr.mc2.dekkos.service;
 import hr.mc2.dekkos.external.jchambers.id_obfuscator.*;
 import hr.mc2.dekkos.external.jchambers.id_obfuscator.util.AlphabetBuilder;
 
-public class ObfuscatorImpl {
+public class Obfuscator {
 
     static final AlphabetCodec codec = new AlphabetCodec(new AlphabetBuilder()
             .includeUppercaseLatinLetters()

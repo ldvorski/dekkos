@@ -1,7 +1,5 @@
 package hr.mc2.dekkos.model;
 
-import hr.mc2.dekkos.service.ObfuscatorImpl;
-
 import javax.persistence.*;
 import java.util.Set;
 
