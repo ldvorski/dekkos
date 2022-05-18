@@ -18,22 +18,17 @@ import java.util.List;
 @Component
 public class YouTubeClient {
     private static final String DEVELOPER_KEY = "AIzaSyBxsNhZQyltAzw9hlcMQ6dvpKBsBOOH6pc";
-
     private static final String APPLICATION_NAME = "Dekkos YTDAPI";
-
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    /**
-     * Build and return an authorized API client service.
-     *
-     * @return an authorized API client service
-     * @throws GeneralSecurityException, IOException
-     */
-    public static YouTube getService() throws GeneralSecurityException, IOException {
-        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        return new YouTube.Builder(httpTransport, JSON_FACTORY, null)
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+    private final YouTube client;
+
+    public YouTubeClient() {
+        try {
+            client = instantiateClient();
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SneakyThrows
@@ -50,6 +45,13 @@ public class YouTubeClient {
                 item.getSnippet().getThumbnails().getDefault().getUrl(),
                 item.getSnippet().getTitle()
         )).toList();
+    }
+
+    private YouTube instantiateClient() throws GeneralSecurityException, IOException {
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        return new YouTube.Builder(httpTransport, JSON_FACTORY, null)
+                .setApplicationName(APPLICATION_NAME)
+                .build();
     }
 }
 

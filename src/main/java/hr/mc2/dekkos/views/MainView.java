@@ -24,6 +24,7 @@ import java.util.List;
 
 @Route
 public class MainView extends VerticalLayout {
+    YouTubeClient youtubeClient;
     Party uiParty;
     User uiUser;
     PartyService partyService;
@@ -44,11 +45,13 @@ public class MainView extends VerticalLayout {
     Button button = new Button("update session info", e -> getSessionUser());
     Button showid = new Button("show obfuscated ids", e -> this.sessionInfo.add(new Label((Obfuscator.obfuscate(this.uiParty.getIdParty())))));
 
-    HorizontalLayout buttons = new HorizontalLayout(admin, member,searchBtn, button,showid);
+    HorizontalLayout buttons = new HorizontalLayout(admin, member,searchBtn, button,showid,iframe);
+
     @Autowired
-    public MainView(UserService userService, PartyService partyService){
+    public MainView(UserService userService, PartyService partyService, YouTubeClient youTubeClient){
         this.userService = userService;
         this.partyService = partyService;
+        this.youtubeClient = youTubeClient;
         add(userName, partyId, searchBox ,buttons);
         add(sessionInfo);
 
@@ -74,5 +77,9 @@ public class MainView extends VerticalLayout {
     private User userButton(String name, Integer id){
         User user = new User(name, false);
         return partyService.addUserToParty(user, id);
+    }
+
+    private List<Song> queryYouTube(String query) {
+        return youtubeClient.search(query);
     }
 }
