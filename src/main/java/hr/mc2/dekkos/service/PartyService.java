@@ -23,11 +23,13 @@ public class PartyService{
             .orElseThrow(NotFoundException::new);
     }
 
-    public User createParty(User admin){
+    public Party createParty(User admin){
         Party party = new Party(admin);
         partyRepository.save(party);
 
-        return userService.addToParty(admin, party);
+        userService.addToParty(admin, party);
+
+        return party;
     }
 
     public Iterable<Party> findAll(){
