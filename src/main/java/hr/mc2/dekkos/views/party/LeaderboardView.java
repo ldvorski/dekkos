@@ -7,7 +7,5 @@ import com.vaadin.flow.router.Route;
 @Route(value = "leaderboard", layout = PartyLayout.class)
 public class LeaderboardView extends VerticalLayout {
 
-    LeaderboardView() {
-        add(new H1("Leaderboard"));
-    }
+
 }

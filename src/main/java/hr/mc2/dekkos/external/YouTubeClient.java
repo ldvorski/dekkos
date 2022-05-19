@@ -53,12 +53,3 @@ public class YouTubeClient {
                 .build();
     }
 }
-
-/*
-    parseati json, kreirati tempSong entitete
-    kreirati grid sa odabirom tempSonga
-    kreirati odabrani Song objekt i dodati ga trenutnom partiju
-    prikazati popis pjesama
-
-
- */
