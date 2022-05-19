@@ -16,6 +16,7 @@ import com.vaadin.flow.router.Route;
 import hr.mc2.dekkos.external.Video;
 import hr.mc2.dekkos.external.YouTubeClient;
 import hr.mc2.dekkos.model.Song;
+import hr.mc2.dekkos.service.SuggestionService;
 import hr.mc2.dekkos.views.components.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,11 +27,13 @@ import java.util.function.Function;
 @Route(value = "suggest", layout = PartyLayout.class)
 public class SuggestView extends VerticalLayout {
     private final YouTubeClient youTubeClient;
+    private final SuggestionService suggestionService;
     private VerticalLayout results = new VerticalLayout();
     private Notification successNotification = new Notification("Successfully suggested a song to be played", 5, Notification.Position.MIDDLE);
 
-    SuggestView(YouTubeClient youTubeClient) {
+    SuggestView(YouTubeClient youTubeClient, SuggestionService suggestionService) {
         this.youTubeClient = youTubeClient;
+        this.suggestionService = suggestionService;
 
         successNotification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         results.setAlignItems(Alignment.CENTER);
@@ -53,7 +56,8 @@ public class SuggestView extends VerticalLayout {
         });
     }
 
-    private void onSuggestClick(Song video) {
+    private void onSuggestClick(Song song) {
+        suggestionService.addSuggestion(song);
         successNotification.open();
     }
 }

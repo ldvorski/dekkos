@@ -1,24 +1,29 @@
 package hr.mc2.dekkos.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.Set;
 
 @Entity
 @Table(name = "suggestion")
 public class Suggestion {
+    private final static ObjectMapper MAPPER = new ObjectMapper();
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "is_played")
-    private boolean isPlayed;
+    private boolean isPlayed = false;
 
     @Column(name = "votes")
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<User> votingUsers;
+    private String votingUsers = "[]";
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "party", referencedColumnName = "id")
@@ -32,28 +37,68 @@ public class Suggestion {
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     private User createdBy;
 
-    public Song getSong(){
+    Suggestion() {}
+
+    Suggestion(User user, Song song, Party party) {
+        this.createdBy = user;
+        this.song = song;
+        this.party = party;
+
+        addVote(user);
+    }
+
+    public static Suggestion create(User user, Song song) {
+        return new Suggestion(user, song, user.getParty());
+    }
+
+    public Song getSong() {
         return this.song;
     }
-    public User getCreator(){
+
+    public User getCreator() {
         return this.createdBy;
     }
-    public Party belongsToParty(){
+
+    public Party belongsToParty() {
         return this.party;
     }
-    public String getSuggestionSongTitle(){
+
+    public String getSuggestionSongTitle() {
         return this.song.getTitle();
     }
-    public String getSuggestionSongUrl(){
+
+    public String getSuggestionSongUrl() {
         return this.song.getUrl();
     }
-    public String getSuggestionSongThumbnail(){
+
+    public String getSuggestionSongThumbnail() {
         return this.song.thumbnail;
     }
-    public Integer getVotes(){
-        return this.votingUsers.size();
+
+    public Integer getVotes() {
+        return readUserVotes().size();
     }
-    public void userVoted(User user){
-        this.votingUsers.add(user);
+
+    public void addVote(User user) {
+        var votes = readUserVotes();
+        votes.add(user);
+        this.votingUsers = writeUserVotes(votes);
     }
+
+    private List<User> readUserVotes() {
+        try {
+            return MAPPER.readValue(votingUsers, new TypeReference<List<User>>() {});
+        } catch (JsonProcessingException e) {
+            return List.of();
+        }
+    }
+
+    private String writeUserVotes(List<User> votes) {
+        try {
+            return MAPPER.writeValueAsString(votingUsers);
+        } catch (JsonProcessingException e) {
+            return "[]";
+        }
+    }
+
 }

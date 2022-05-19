@@ -6,8 +6,6 @@ import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import hr.mc2.dekkos.model.User;
 import hr.mc2.dekkos.service.AuthenticationService;
@@ -34,7 +32,7 @@ public class JoinPartyView extends VerticalLayout {
     }
 
     private void onJoin(String username, String partyCode) {
-        var party = partyService.getParty(partyCode);
+        var party = partyService.getPartyByCode(partyCode);
         var user = User.createMember(username, party);
 
         userService.add(user);

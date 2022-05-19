@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,7 +26,7 @@ public class UserService{
     }
 
     public User addToParty(User user, Party party){
-        user.setUserParty(party);
+        user.setParty(party);
         return userRepository.save(user);
     }
 

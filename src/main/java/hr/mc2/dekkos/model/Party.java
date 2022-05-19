@@ -18,21 +18,22 @@ public class Party {
     @JoinColumn(name = "party_admin", referencedColumnName = "id")
     private User partyAdmin;
 
-    @OneToMany(mappedBy = "userParty",fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "party", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<User> users;
 
-    public Party(User user){
+    public Party(User user) {
         this.isActive = true;
         this.partyAdmin = user;
     }
 
-    public Party() {}
+    public Party() {
+    }
 
     public Integer getId() {
         return this.idParty;
     }
-    public boolean getIsActive(){
+
+    public boolean getIsActive() {
         return this.isActive;
     }
 

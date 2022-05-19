@@ -4,17 +4,25 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.*;
+import hr.mc2.dekkos.service.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RoutePrefix("party/:partyCode")
 public class PartyLayout extends AppLayout implements BeforeEnterObserver {
+    private final AuthenticationService authenticationService;
     private final Tabs tabs = new Tabs();
 
-    PartyLayout() {
+    PartyLayout(
+        AuthenticationService authenticationService
+    ) {
+        this.authenticationService = authenticationService;
         addToNavbar(tabs);
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        var user = authenticationService.getUserFromSession();
+        System.out.println("user = " + user.getName());
         addTabs(beforeEnterEvent.getRouteParameters().get("partyCode").orElseThrow(NotFoundException::new));
     }
 

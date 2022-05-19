@@ -18,14 +18,20 @@ public class PartyService{
     private final UserService userService;
     private final ObfuscatorService obfuscatorService;
 
-    public Party getParty(String partyId) throws NotFoundException {
-        return partyRepository.findPartyByIdParty(deobfuscatePartyId(partyId))
+
+    public Party getPartyById(Integer partyId) throws NotFoundException {
+        return partyRepository.findPartyByIdParty(partyId)
+            .orElseThrow(NotFoundException::new);
+    }
+
+    public Party getPartyByCode(String code) throws NotFoundException {
+        return partyRepository.findPartyByIdParty(deobfuscatePartyId(code))
             .orElseThrow(NotFoundException::new);
     }
 
     public Party createParty(User admin){
         Party party = new Party(admin);
-        partyRepository.save(party);
+        party = partyRepository.save(party);
 
         userService.addToParty(admin, party);
 

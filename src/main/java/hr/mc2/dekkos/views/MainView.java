@@ -1,26 +1,6 @@
 package hr.mc2.dekkos.views;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.IFrame;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinService;
-import hr.mc2.dekkos.components.PotentialSongComponent;
-import hr.mc2.dekkos.external.YouTubeClient;
-import hr.mc2.dekkos.model.Party;
-import hr.mc2.dekkos.model.Song;
-import hr.mc2.dekkos.model.User;
-import hr.mc2.dekkos.service.ObfuscatorService;
-import hr.mc2.dekkos.service.PartyService;
-import hr.mc2.dekkos.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 //@Route
 public class MainView extends VerticalLayout {

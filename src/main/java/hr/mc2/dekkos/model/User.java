@@ -18,9 +18,9 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "partyAdmin")
     private Party adminToParty;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "user_party")
-    private Party userParty;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "party_id")
+    private Party party;
 
     private User(String name, boolean isAdmin) {
         this.name = name;
@@ -29,7 +29,7 @@ public class User implements Serializable {
 
     private User(String name, Party party) {
         this.name = name;
-        this.userParty = party;
+        this.party = party;
     }
 
     protected User() {}
@@ -61,12 +61,13 @@ public class User implements Serializable {
         return isAdmin;
     }
 
-    public Party getUserParty() {
-        return this.userParty;
+    public Party getParty() {
+        return this.party;
     }
 
-    public void setUserParty(Party userParty) {
-        this.userParty = userParty;
+    public void setParty(Party userParty) {
+        System.out.println("userParty = " + userParty.getId() + " ");
+        this.party = userParty;
     }
 
     public Party getAdminToParty() {
