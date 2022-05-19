@@ -8,13 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class SongService{
+public class SongService {
     final SongRepository songRepository;
-    @Autowired
+
     public SongService(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
-    public void saveSong(Song song){
+
+    public void saveSong(Song song) {
         songRepository.save(song);
     }
 

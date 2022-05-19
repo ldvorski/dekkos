@@ -9,8 +9,8 @@ import javax.persistence.Table;
 @Table(name = "song")
 public class Song {
     @Id
-    @Column(name = "url")
-    String url;
+    @Column(name = "id")
+    String id;
 
     @Column(name = "thumbnail")
     String thumbnail;
@@ -19,7 +19,7 @@ public class Song {
     String title;
 
     public Song(String videoId, String url, String title) {
-        this.url = videoId;
+        this.id = videoId;
         this.thumbnail = url;
         this.title = title;
     }
@@ -36,6 +36,6 @@ public class Song {
     }
 
     public String getUrl() {
-        return "https://www.youtube.com/embed/" + url;
+        return "https://www.youtube.com/embed/" + id;
     }
 }

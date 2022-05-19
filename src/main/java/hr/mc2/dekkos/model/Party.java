@@ -9,7 +9,7 @@ import java.util.Set;
 public class Party {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_party")
+    @Column(name = "id")
     private Integer idParty;
     @Column(name = "is_active")
     private boolean isActive;

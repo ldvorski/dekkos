@@ -5,12 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Table(name = "sgs")
+@Table(name = "suggestion")
 public class Suggestion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idsgs")
-    private Long idsgs;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "is_played")
     private boolean isPlayed;
@@ -18,12 +18,12 @@ public class Suggestion {
     @Column(name = "votes")
     private int votes;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "party", referencedColumnName = "id_party")
-//    private Party party;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "party", referencedColumnName = "id")
+    private Party party;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "song", referencedColumnName = "url")
+    @JoinColumn(name = "song", referencedColumnName = "id")
     private Song song;
 
     @OneToOne(cascade = CascadeType.ALL)
