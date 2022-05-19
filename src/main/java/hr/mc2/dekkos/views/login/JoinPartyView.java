@@ -1,16 +1,22 @@
 package hr.mc2.dekkos.views.login;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteParam;
+import com.vaadin.flow.router.RouteParameters;
 import hr.mc2.dekkos.model.User;
 import hr.mc2.dekkos.service.AuthenticationService;
 import hr.mc2.dekkos.service.PartyService;
 import hr.mc2.dekkos.service.UserService;
+import hr.mc2.dekkos.views.party.PlaylistView;
 
 
 @Route("/")
@@ -27,8 +33,12 @@ public class JoinPartyView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         setHorizontalComponentAlignment(Alignment.CENTER);
-        setWidthFull();
+        setSizeFull();
         add(createForm());
+
+        var joinRoomLink = new Anchor("/create", "Create a party instead");
+
+        add(joinRoomLink);
     }
 
     private void onJoin(String username, String partyCode) {
@@ -38,10 +48,16 @@ public class JoinPartyView extends VerticalLayout {
         userService.add(user);
 
         authenticationService.addUserToSession(user);
+
+        UI.getCurrent().navigate(
+            PlaylistView.class,
+            new RouteParameters(new RouteParam("partyCode", partyService.obfuscatePartyId(party)))
+        );
     }
 
-    private FormLayout createForm() {
+    private FlexLayout createForm() {
         var title = new H1("Join a party");
+        title.getStyle().set("margin", "0");
 
         var username = new TextField("Username");
         var code = new TextField("Party code");
@@ -60,12 +76,16 @@ public class JoinPartyView extends VerticalLayout {
             new ResponsiveStep("0", 1),
             new ResponsiveStep("500px", 1)
         );
+
+        var flex = new FlexLayout(form);
+        flex.setJustifyContentMode(JustifyContentMode.CENTER);
+
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         setHorizontalComponentAlignment(Alignment.CENTER);
         setWidthFull();
 
 
-        return form;
+        return flex;
     }
 }

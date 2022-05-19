@@ -52,10 +52,10 @@ public class PartyService{
         return partyOptional.get();
     }
 
-    private String obfuscatePartyId(Party party){
+    public String obfuscatePartyId(Party party){
         return obfuscatorService.obfuscate(party.getId());
     }
-    private Integer deobfuscatePartyId(String partyCode){
+    public Integer deobfuscatePartyId(String partyCode){
         return obfuscatorService.deobfuscate(partyCode);
     }
 }

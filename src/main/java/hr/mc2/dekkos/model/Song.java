@@ -1,25 +1,36 @@
 package hr.mc2.dekkos.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "song")
 public class Song {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    String id;
+    Integer id;
+
+    @Column(name = "videoId")
+    String videoId;
 
     @Column(name = "thumbnail")
     String thumbnail;
 
+    @Column(name = "is_played")
+    Boolean isPlayed = false;
+
+    @Column(name = "is_currently_playing")
+    Boolean isCurrentlyPlaying;
+
     @Column(name = "title")
     String title;
 
+    @OneToOne(mappedBy = "song", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    Suggestion suggestion;
+
     public Song(String videoId, String url, String title) {
-        this.id = videoId;
+        this.videoId = videoId;
         this.thumbnail = url;
         this.title = title;
     }
@@ -35,7 +46,27 @@ public class Song {
         return title;
     }
 
+    public Boolean getIsPlayed() {
+        return isPlayed;
+    }
+
+    public void setIsPlayed(Boolean flag) {
+        isPlayed = flag;
+    }
+
+    public Boolean getIsCurrentlyPlaying() {
+        return isCurrentlyPlaying;
+    }
+
+    public void setIsCurrentlyPlaying(Boolean flag) {
+        isCurrentlyPlaying = flag;
+    }
+
     public String getUrl() {
-        return "https://www.youtube.com/embed/" + id;
+        return "https://www.youtube.com/embed/" + videoId;
+    }
+
+    public Suggestion getSuggestion() {
+        return suggestion;
     }
 }

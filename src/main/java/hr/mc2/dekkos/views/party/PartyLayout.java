@@ -1,6 +1,8 @@
 package hr.mc2.dekkos.views.party;
 
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.*;
@@ -16,7 +18,11 @@ public class PartyLayout extends AppLayout implements BeforeEnterObserver {
         AuthenticationService authenticationService
     ) {
         this.authenticationService = authenticationService;
-        addToNavbar(tabs);
+        var flex = new FlexLayout(tabs);
+        flex.setWidthFull();
+        flex.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+
+        addToNavbar(flex);
     }
 
     @Override
