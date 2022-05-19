@@ -36,12 +36,7 @@ public class UserService{
     }
 
     public User getUser(Integer userId){
-        Optional<User> userOptional = userRepository.findById(userId);
-        if(userOptional.isEmpty()){
-            throw new NotFoundException(
-                    "ERR_USER_NOT_FOUND"
-            );
-        }
-        return userOptional.get();
+        return userRepository.findById(userId).orElseThrow(NotFoundException::new);
     }
+
 }

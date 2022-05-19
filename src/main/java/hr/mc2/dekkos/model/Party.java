@@ -27,18 +27,16 @@ public class Party {
         this.partyAdmin = user;
     }
 
-    public Party() {
+    public Party() {}
 
-    }
-
-    public Integer getIdParty() {
+    public Integer getId() {
         return this.idParty;
     }
-    public boolean partyIsActive(){
+    public boolean getIsActive(){
         return this.isActive;
     }
 
-    public User getPartyAdmin() {
+    public User getAdmin() {
         return this.partyAdmin;
     }
 

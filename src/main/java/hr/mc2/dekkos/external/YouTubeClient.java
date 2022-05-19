@@ -6,7 +6,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
 import hr.mc2.dekkos.model.Song;
-import hr.mc2.dekkos.service.Obfuscator;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 

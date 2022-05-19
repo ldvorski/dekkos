@@ -22,12 +22,25 @@ public class User implements Serializable {
     @JoinColumn(name = "user_party")
     private Party userParty;
 
-    public User(String name, boolean isAdmin) {
+    private User(String name, boolean isAdmin) {
         this.name = name;
         this.isAdmin = isAdmin;
     }
 
+    private User(String name, Party party) {
+        this.name = name;
+        this.userParty = party;
+    }
+
     protected User() {}
+
+    public static User createMember(String username, Party party) {
+        return new User(username, party);
+    }
+
+    public static User createAdmin(String username) {
+        return new User(username, true);
+    }
 
     @Override
     public String toString() {
